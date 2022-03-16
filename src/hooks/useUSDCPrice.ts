@@ -1,7 +1,9 @@
 import { Currency, CurrencyAmount, Price, Token, TradeType } from '@uniswap/sdk-core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useLeader, { LEADER } from 'lib/hooks/useLeader'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { useMemo } from 'react'
+import { currencyId } from 'utils/currencyId'
 
 import { SupportedChainId } from '../constants/chains'
 import { DAI_OPTIMISM, USDC_ARBITRUM, USDC_MAINNET, USDC_POLYGON } from '../constants/tokens'
@@ -26,34 +28,50 @@ export default function useUSDCPrice(currency?: Currency): Price<Currency, Token
 
   const amountOut = chainId ? STABLECOIN_AMOUNT_OUT[chainId] : undefined
   const stablecoin = amountOut?.currency
+  const key = useMemo(
+    () =>
+      amountOut &&
+      stablecoin &&
+      JSON.stringify([currencyId(amountOut.currency), amountOut.toFixed(), currencyId(stablecoin)]),
+    [amountOut, stablecoin]
+  )
+  const [price, setPrice] = useLeader<Price<Currency, Token>>(key)
+  const otherCurrency = price === LEADER ? currency : undefined
 
   // TODO(#2808): remove dependency on useBestV2Trade
-  const v2USDCTrade = useBestV2Trade(TradeType.EXACT_OUTPUT, amountOut, currency, {
+  const v2USDCTrade = useBestV2Trade(TradeType.EXACT_OUTPUT, amountOut, otherCurrency, {
     maxHops: 2,
   })
-  const v3USDCTrade = useClientSideV3Trade(TradeType.EXACT_OUTPUT, amountOut, currency)
+  const v3USDCTrade = useClientSideV3Trade(TradeType.EXACT_OUTPUT, amountOut, otherCurrency)
 
   return useMemo(() => {
-    if (!currency || !stablecoin) {
+    if (price === LEADER) {
+      return setPrice(getPrice())
+    }
+    return price
+
+    function getPrice() {
+      if (!otherCurrency || !stablecoin) {
+        return undefined
+      }
+
+      // handle usdc
+      if (otherCurrency?.wrapped.equals(stablecoin)) {
+        return new Price(stablecoin, stablecoin, '1', '1')
+      }
+
+      // use v2 price if available, v3 as fallback
+      if (v2USDCTrade) {
+        const { numerator, denominator } = v2USDCTrade.route.midPrice
+        return new Price(otherCurrency, stablecoin, denominator, numerator)
+      } else if (v3USDCTrade.trade) {
+        const { numerator, denominator } = v3USDCTrade.trade.routes[0].midPrice
+        return new Price(otherCurrency, stablecoin, denominator, numerator)
+      }
+
       return undefined
     }
-
-    // handle usdc
-    if (currency?.wrapped.equals(stablecoin)) {
-      return new Price(stablecoin, stablecoin, '1', '1')
-    }
-
-    // use v2 price if available, v3 as fallback
-    if (v2USDCTrade) {
-      const { numerator, denominator } = v2USDCTrade.route.midPrice
-      return new Price(currency, stablecoin, denominator, numerator)
-    } else if (v3USDCTrade.trade) {
-      const { numerator, denominator } = v3USDCTrade.trade.routes[0].midPrice
-      return new Price(currency, stablecoin, denominator, numerator)
-    }
-
-    return undefined
-  }, [currency, stablecoin, v2USDCTrade, v3USDCTrade.trade])
+  }, [price, setPrice, otherCurrency, stablecoin, v2USDCTrade, v3USDCTrade.trade])
 }
 
 export function useUSDCValue(currencyAmount: CurrencyAmount<Currency> | undefined | null) {
