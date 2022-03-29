@@ -4822,10 +4822,10 @@
     tiny-invariant "^1.1.0"
     toformat "^2.0.0"
 
-"@uniswap/smart-order-router@^2.5.25":
-  version "2.5.25"
-  resolved "https://registry.yarnpkg.com/@uniswap/smart-order-router/-/smart-order-router-2.5.25.tgz#981b9bc047fb3fa844d1e3295202d61f533ad1e0"
-  integrity sha512-c8C5hCGA5Nq+/3XlCp1LRrZrAbIK4OL6DQn1a/rIxZTgNatdVl7eYUt2y1h5+kGnw1ukVYqJz+izzBAsQklJ9w==
+"@uniswap/smart-order-router@^2.5.26":
+  version "2.5.26"
+  resolved "https://registry.yarnpkg.com/@uniswap/smart-order-router/-/smart-order-router-2.5.26.tgz#8954cd1bca476bf821aaffe81071bcf89bc869b8"
+  integrity sha512-KCjxZoPawBEkvt5pJutsPC1Db61f6qrnSpWUPeC8fRJEKXc72msbtzopqB4q4ex5S0Ax3ck4gbA1qRO7zBeixQ==
   dependencies:
     "@types/async-retry" "^1.4.2"
     "@types/await-timeout" "^0.3.1"
