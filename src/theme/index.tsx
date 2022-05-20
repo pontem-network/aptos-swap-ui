@@ -60,14 +60,14 @@ function colors(darkMode: boolean): Colors {
 
     // text
     text1: darkMode ? '#FFFFFF' : '#000000',
-    text2: darkMode ? '#C3C5CB' : '#565A69',
+    text2: darkMode ? '#ffffff' : '#565A69',
     text3: darkMode ? '#8F96AC' : '#6E727D',
     text4: darkMode ? '#B2B9D2' : '#C3C5CB',
     text5: darkMode ? '#2C2F36' : '#EDEEF2',
 
     // backgrounds / greys
-    bg0: darkMode ? '#191B1F' : '#FFF',
-    bg1: darkMode ? '#212429' : '#F7F8FA',
+    bg0: darkMode ? '#1C1C33' : '#FFF',
+    bg1: darkMode ? '#4A495E' : '#F7F8FA',
     bg2: darkMode ? '#2C2F36' : '#EDEEF2',
     bg3: darkMode ? '#40444F' : '#CED0D9',
     bg4: darkMode ? '#565A69' : '#888D9B',
@@ -79,19 +79,19 @@ function colors(darkMode: boolean): Colors {
     advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
 
     //primary colors
-    primary1: darkMode ? '#2172E5' : '#E8006F',
-    primary2: darkMode ? '#3680E7' : '#FF8CC3',
-    primary3: darkMode ? '#4D8FEA' : '#FF99C9',
-    primary4: darkMode ? '#376bad70' : '#F6DDE8',
-    primary5: darkMode ? '#153d6f70' : '#FDEAF1',
+    primary1: darkMode ? '#6E42CA' : '#E8006F',
+    primary2: darkMode ? '#6E42CA' : '#FF8CC3',
+    primary3: darkMode ? '#6E42CA' : '#FF99C9',
+    primary4: darkMode ? '#6E42CA70' : '#F6DDE8',
+    primary5: darkMode ? '#6E42CA' : '#FDEAF1',
 
     // color text
-    primaryText1: darkMode ? '#5090ea' : '#D50066',
+    primaryText1: darkMode ? '#ffffff' : '#D50066',
 
     // secondary colors
-    secondary1: darkMode ? '#2172E5' : '#E8006F',
-    secondary2: darkMode ? '#17000b26' : '#F6DDE8',
-    secondary3: darkMode ? '#17000b26' : '#FDEAF1',
+    secondary1: darkMode ? '#E5E4FA' : '#E8006F',
+    secondary2: darkMode ? '#E5E4FA26' : '#F6DDE8',
+    secondary3: darkMode ? '#E5E4FA26' : '#FDEAF1',
 
     // other
     red1: darkMode ? '#FF4343' : '#DA2D2B',

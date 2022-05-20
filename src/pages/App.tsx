@@ -8,7 +8,6 @@ import styled from 'styled-components/macro'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import ErrorBoundary from '../components/ErrorBoundary'
 import Header from '../components/Header'
-import Polling from '../components/Header/Polling'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
@@ -34,12 +33,17 @@ const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${process.env.PUBLIC_URL + 'images/bg.jpg'});
 `
 
 const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   padding: 120px 16px 0px 16px;
   align-items: center;
   flex: 1;
@@ -59,6 +63,17 @@ const HeaderWrapper = styled.div`
   z-index: 2;
 `
 
+const FooterWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  margin: auto 0 25px;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `};
+`
+
 const Marginer = styled.div`
   margin-top: 5rem;
 `
@@ -76,7 +91,6 @@ export default function App() {
           </HeaderWrapper>
           <BodyWrapper>
             <Popups />
-            <Polling />
             <TopLevelModals />
             <Suspense fallback={<Loader />}>
               <Switch>
@@ -128,6 +142,7 @@ export default function App() {
             </Suspense>
             <Marginer />
           </BodyWrapper>
+          <FooterWrapper>© 2022 Pontem Technology Ltd. All Rights Reserved.</FooterWrapper>
         </AppWrapper>
       </Web3ReactManager>
     </ErrorBoundary>
